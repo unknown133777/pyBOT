@@ -1,0 +1,6 @@
+{
+    "config": {
+        "guild_id": "your Guild ID",
+        "token": "your bot token"
+    }
+}
