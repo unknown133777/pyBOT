@@ -1,4 +1,4 @@
-import json, os
+import json, os, requests
 
 #Read json(config.json)
 JSON_PATH = str(os.getcwd()) + '\config.json'
@@ -8,4 +8,3 @@ def read_json():
         result = [data['config']['guild_id'], data['config']['token']]
     return result
 
-    

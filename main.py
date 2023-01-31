@@ -14,6 +14,7 @@ intents.voice_states = True
 
 bot = commands.Bot()
 
+#Cogs load
 for file in os.listdir('cogs'):
     if file.endswith('.py'):
         bot.load_extension(f'cogs.{file[:-3]}')
