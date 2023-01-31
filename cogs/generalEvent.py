@@ -7,11 +7,7 @@ class mainEvent(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self): 
-        print(f'We have logged in as {self.bot.user}')
-    
-    @commands.Cog.listener()
-    async def on_invite_create(self, invite): 
-        print(f'invite created {invite.code}')
+        print(f'on_ready() executed {self.bot.user}')
 
 def setup(bot):
     bot.add_cog(mainEvent(bot))
