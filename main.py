@@ -12,8 +12,9 @@ intents.message_content = True
 intents.members = True
 intents.voice_states = True
 
-bot = commands.Bot()
+bot = commands.Bot(intents=intents)
 
+#Cogs load
 for file in os.listdir('cogs'):
     if file.endswith('.py'):
         bot.load_extension(f'cogs.{file[:-3]}')
