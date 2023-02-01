@@ -18,10 +18,11 @@ class LogChannel(commands.Cog):
     async def setLogChannelA(self, interaction: nextcord.Interaction, channel: nextcord.TextChannel = nextcord.SlashOption(required=True)):
         
         #REST API TO POST
-        url = "http://ubuntu.donggeon.xyz:8000/setlogchannel/"
-        headers = {"Content-Type": "application/json"}
-        jSON = {"channel_id": f"{channel.id}", "guild_id": f"{channel.guild.id}"}
-        http_post = requests.post(url, json=jSON, headers=headers)
+        http_post = requests.post(
+            url="http://127.0.0.1:8000/logchannel/set/", 
+            json={"channel_id": f"{channel.id}", "guild_id": f"{channel.guild.id}"}, 
+            headers={"Content-Type": "application/json"}
+        )
             
         if http_post.status_code == 201:
             if http_post.json()["detail"] == "dbCreateSuccess":
@@ -38,7 +39,7 @@ class LogChannel(commands.Cog):
             elif http_post.json()["detail"] == "dbUpdateFail":
                 embed = log_embed(interaction, channel, f"Error! [Log channel NOT UPDATED]")
                 await interaction.response.send_message(embed=embed)
-            else:
+            elif http_post.json()["detail"] == "sameChannelId":
                 embed = log_embed(interaction, channel, f"Log Channel is already set to [{channel.mention}]")
                 await interaction.response.send_message(embed=embed)
             
