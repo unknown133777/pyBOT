@@ -113,17 +113,82 @@ class game1(commands.Cog):
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
             
+    # 삭제 로그를 띄울때 member 정보를 None으로 넘겨줘서 오류가 자꾸 발생함
+    # TODO: member 정보를 넘겨줄 수 있도록 수정 (누가 삭제했는지 알 수 있도록) 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload): # When a reaction(emoji) is removed
         # if payload.member.bot: # Ignore bot
         #     return
         message_jump_url = f"https://discord.com/channels/{payload.guild_id}/{payload.channel_id}/{payload.message_id}"
         embed = nextcord.Embed(description=f"Emoji removed!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
-        # embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
+        if payload.member is None:
+            embed.set_author(name="Unknown", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
+        else:
+            embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
         embed.add_field(name="Reaction", value=f"{payload.emoji} / {payload.member}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
+    
+    @commands.Cog.listener()
+    async def on_guild_channel_create(self, channel): # When a channel is created
+        # Get user who created the channel
+        embed = nextcord.Embed(description=f"Channel created!", color=0x5947FF)
+        async for entry in channel.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot: # Ignore bot
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        embed.add_field(name="Category", value=f"{channel.category}", inline=False)
+        embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
+        
+    
+    @commands.Cog.listener()
+    async def on_guild_channel_delete(self, channel): # When a channel is deleted
+        embed = nextcord.Embed(description=f"Channel deleted!", color=0x5947FF)
+        # Get user who deleted the channel
+        async for entry in channel.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot:
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        embed.add_field(name="Category", value=f"{channel.category}", inline=False)
+        embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
+        
+    @commands.Cog.listener()
+    async def on_guild_channel_update(self, before, after): # When a channel is updated
+        embed = nextcord.Embed(description=f"Channel updated!", color=0x5947FF)
+        # Get user who deleted the channel
+        async for entry in before.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot:
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        
+        Status = False
+        
+        if before.name != after.name:
+            embed.add_field(name="Channel name", value=f"Before: **{before.name}**\nAfter: **{after.name}**", inline=False)
+            Status = True
+        
+        if before.category != after.category:
+            embed.add_field(name="Category", value=f"Before: **{before.category}**\nAfter: **{after.category}**", inline=False)
+            Status = True
+        # TODO: Change roles 배열로 받는거같은데 UI 어떻게할지 고민 
+        if before.changed_roles != after.changed_roles:
+            embed.add_field(name="Changed roles", value=f"Before: **{before.changed_roles}**\nAfter: **{after.changed_roles}**", inline=False)
+            Status = True
+        
+        embed.add_field(name="ID", value=f"```yaml\n{before.guild.id} (Server ID)\n{before.id} (Channel ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        
+        if  Status == True:
+            await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
+            
+    
         
         
     
