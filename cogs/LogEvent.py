@@ -23,7 +23,8 @@ class game1(commands.Cog):
     async def on_message_edit(self, before, after): #When message is edited
         if before.author.bot: #Ignore bot messages
             return
-        embed = nextcord.Embed(description=f"Message edited in {before.channel.mention} by {before.author.mention}", color=0x5947FF)
+        message_jump_url = f"https://discord.com/channels/{before.guild.id}/{before.channel.id}/{before.id}"
+        embed = nextcord.Embed(description=f"Message edited!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
         embed.set_author(name=before.author, icon_url=before.author.display_avatar)
         embed.add_field(name="Before", value=before.content, inline=True)
         embed.add_field(name="After", value=after.content, inline=True)
@@ -99,7 +100,32 @@ class game1(commands.Cog):
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         if Status == True: # If there is a change
             await self.bot.get_channel(utils.get_channel_id(str(before.id))).send(embed=embed)
-        
             
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload): # When a reaction(emoji) is added
+        if payload.member.bot: # Ignore bot
+            return
+        message_jump_url = f"https://discord.com/channels/{payload.guild_id}/{payload.channel_id}/{payload.message_id}"
+        embed = nextcord.Embed(description=f"Emoji added!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
+        embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
+        embed.add_field(name="Reaction", value=payload.emoji, inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
+            
+    @commands.Cog.listener()
+    async def on_raw_reaction_remove(self, payload): # When a reaction(emoji) is removed
+        # if payload.member.bot: # Ignore bot
+        #     return
+        message_jump_url = f"https://discord.com/channels/{payload.guild_id}/{payload.channel_id}/{payload.message_id}"
+        embed = nextcord.Embed(description=f"Emoji removed!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
+        # embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
+        embed.add_field(name="Reaction", value=f"{payload.emoji} / {payload.member}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
+        
+        
+    
 def setup(bot):
     bot.add_cog(game1(bot))
