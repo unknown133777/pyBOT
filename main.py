@@ -7,10 +7,11 @@ data = utils.read_json()
 GUILD_ID = int(data[0])
 TOKEN = data[1]
 
-intents = nextcord.Intents.default()
-intents.message_content = True
-intents.members = True
-intents.voice_states = True
+intents = nextcord.Intents.default().all()
+# intents.message_content = True
+# intents.members = True
+# intents.voice_states = True
+# intents.reactions = True
 
 bot = commands.Bot(intents=intents)
 
