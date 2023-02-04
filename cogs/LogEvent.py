@@ -15,6 +15,7 @@ class game1(commands.Cog):
         embed = nextcord.Embed(description=f"Message deleted in {message.channel.mention} by {message.author.mention}", color=0x5947FF)
         embed.set_author(name=message.author, icon_url=message.author.display_avatar)
         embed.add_field(name="Content", value=message.content, inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -28,6 +29,7 @@ class game1(commands.Cog):
         embed.set_author(name=before.author, icon_url=before.author.display_avatar)
         embed.add_field(name="Before", value=before.content, inline=True)
         embed.add_field(name="After", value=after.content, inline=True)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.id} (Message ID)\n{before.channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
@@ -96,9 +98,10 @@ class game1(commands.Cog):
             embed.add_field(name="Server NSFW Level changed", value=f"Before: **{before.nsfw_level}**\nAfter: **{after.nsfw_level}**", inline=False)
             Status = True
             
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.id} (Server ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
-        if Status == True: # If there is a change
+        if Status: # If there is a change
             await self.bot.get_channel(utils.get_channel_id(str(before.id))).send(embed=embed)
             
     @commands.Cog.listener()
@@ -106,9 +109,10 @@ class game1(commands.Cog):
         if payload.member.bot: # Ignore bot
             return
         message_jump_url = f"https://discord.com/channels/{payload.guild_id}/{payload.channel_id}/{payload.message_id}"
-        embed = nextcord.Embed(description=f"Emoji added!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
+        embed = nextcord.Embed(description=f"Emoji added!  →  [Go to Message]({message_jump_url})", color=0xF99F99)
         embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
         embed.add_field(name="Reaction", value=payload.emoji, inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -120,12 +124,13 @@ class game1(commands.Cog):
         # if payload.member.bot: # Ignore bot
         #     return
         message_jump_url = f"https://discord.com/channels/{payload.guild_id}/{payload.channel_id}/{payload.message_id}"
-        embed = nextcord.Embed(description=f"Emoji removed!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
+        embed = nextcord.Embed(description=f"Emoji removed!  →  [Go to Message]({message_jump_url})", color=0xF99F99)
         if payload.member is None:
             embed.set_author(name="Unknown", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
         else:
             embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
         embed.add_field(name="Reaction", value=f"{payload.emoji} / {payload.member}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -133,13 +138,14 @@ class game1(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel): # When a channel is created
         # Get user who created the channel
-        embed = nextcord.Embed(description=f"Channel created!", color=0x5947FF)
+        embed = nextcord.Embed(description=f"Channel created!", color=0xFFD580)
         async for entry in channel.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
             if entry.user.bot: # Ignore bot
                 return
             embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
         embed.add_field(name="Category", value=f"{channel.category}", inline=False)
         embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
@@ -147,7 +153,7 @@ class game1(commands.Cog):
     
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel): # When a channel is deleted
-        embed = nextcord.Embed(description=f"Channel deleted!", color=0x5947FF)
+        embed = nextcord.Embed(description=f"Channel deleted!", color=0xFFD580)
         # Get user who deleted the channel
         async for entry in channel.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
             if entry.user.bot:
@@ -155,13 +161,14 @@ class game1(commands.Cog):
             embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
         embed.add_field(name="Category", value=f"{channel.category}", inline=False)
         embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
         
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before, after): # When a channel is updated
-        embed = nextcord.Embed(description=f"Channel updated!", color=0x5947FF)
+        embed = nextcord.Embed(description=f"Channel updated!", color=0x188881)
         # Get user who deleted the channel
         async for entry in before.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
             if entry.user.bot:
@@ -181,16 +188,119 @@ class game1(commands.Cog):
         if before.changed_roles != after.changed_roles:
             embed.add_field(name="Changed roles", value=f"Before: **{before.changed_roles}**\nAfter: **{after.changed_roles}**", inline=False)
             Status = True
-        
+            
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.guild.id} (Server ID)\n{before.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         
-        if  Status == True:
+        if  Status:
             await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
             
+    @commands.Cog.listener()
+    async def on_member_join(self, member): # When a member joins
+        embed = nextcord.Embed(description=f"**Member joined**", color=0x5DD471)
+        embed.set_author(name=member, icon_url=member.display_avatar)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{member.guild.id} (Server ID)\n{member.id} (Member ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(member.guild.id))).send(embed=embed)
     
+    @commands.Cog.listener()
+    async def on_member_remove(self, member): # When a member leaves
+        embed = nextcord.Embed(description=f"**Member left**", color=0xD1111B)
+        embed.set_author(name=member, icon_url=member.display_avatar)
+        embed.add_field(name="Joined at", value=f"{nextcord.utils.format_dt(member.joined_at)}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{member.guild.id} (Server ID)\n{member.id} (Member ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(member.guild.id))).send(embed=embed)
         
+    @commands.Cog.listener()
+    async def on_presence_update(self, before, after): # When a member's presence is updated
+        if before.bot:
+            return
+        embed = nextcord.Embed(description=f"**Member's Presence updated**", color=0x188881)
+        embed.set_author(name=before, icon_url=before.display_avatar)
         
+        Status = False
+        
+        # 의도치않은 오류가 계속 발생함. 왜인지 모르겠음 / 유저의 상태를 보고하는것인데 자꾸 임베드가 두개생성되거나 필드가 한개 없이 생성되는 오류가 발생함
+        # print(f"BEFORE :::::: {before.is_on_mobile()}\n AFTER :::::: {after.is_on_mobile()}")
+        # if before.status != after.status:
+        #     if after.is_on_mobile():
+        #         embed.add_field(name="Status", value=f"Before: **{before.status}(Desktop)**\nAfter: **{after.status}(Mobile)**", inline=False)
+        #     else:
+        #         embed.add_field(name="Status", value=f"Before: **{before.status}(Mobile)**\nAfter: **{after.status}(Desktop)**", inline=False)
+        #     Status = True
+            
+        if before.activities != after.activities:
+            if before.activity.name != after.activity.name:
+                embed.add_field(name="Activity name", value=f"Before: **{before.activity.name}**\nAfter: **{after.activity.name}**", inline=False)
+            if before.activity.details != after.activity.details:
+                embed.add_field(name="Details", value=f"Before: **{before.activity.details}**\nAfter: **{after.activity.details}**", inline=False)
+            if before.activity.url != after.activity.url:
+                embed.add_field(name="URL", value=f"Before: **{before.activity.url}**\nAfter: **{after.activity.url}**", inline=False)
+            Status = True
+        
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{before.guild.id} (Server ID)\n{before.id} (Member ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        if Status:
+            await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
+
+            
+    @commands.Cog.listener()
+    async def on_guild_role_create(self, role): # When a role is created
+        embed = nextcord.Embed(description=f"Role Created!", color=role.colour.from_rgb(role.color.r, role.color.g, role.color.b))
+        # Get user who deleted the channel
+        async for entry in role.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot:
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        embed.add_field(name="Role name", value=f"**{role.name}**", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{role.guild.id} (Server ID)\n{role.id} (Role ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(role.guild.id))).send(embed=embed)
+        
+    @commands.Cog.listener()
+    async def on_guild_role_delete(self, role): # When a role is deleted
+        embed = nextcord.Embed(description=f"Role Deleted!", color=role.colour.from_rgb(role.color.r, role.color.g, role.color.b))
+        # Get user who deleted the channel
+        async for entry in role.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot:
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        embed.add_field(name="Role name", value=f"**{role.name}**", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{role.guild.id} (Server ID)\n{role.id} (Role ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        await self.bot.get_channel(utils.get_channel_id(str(role.guild.id))).send(embed=embed)
+        
+    @commands.Cog.listener()
+    async def on_guild_role_update(self, before, after): # When a role is updated
+        embed = nextcord.Embed(description=f"Role Updated!", color=after.colour.from_rgb(after.color.r, after.color.g, after.color.b))
+        # Get user who deleted the channel
+        async for entry in after.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
+            if entry.user.bot:
+                return
+            embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
+        Status = False
+        if before.name != after.name:
+            embed.add_field(name="Role name", value=f"Before: **{before.name}**\nAfter: **{after.name}**", inline=False)
+            Status = True
+        if before.color != after.color:
+            embed.add_field(name="Role color", value=f"Before: **{before.color}**\nAfter: **{after.color}**", inline=False)
+            Status = True
+        if before.hoist != after.hoist:
+            embed.add_field(name="Role hoist", value=f"Before: **{before.hoist}**\nAfter: **{after.hoist}**", inline=False)
+            Status = True
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{after.guild.id} (Server ID)\n{after.id} (Role ID)```", inline=False)
+        embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
+        if Status == True:
+            await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
+            
     
 def setup(bot):
     bot.add_cog(game1(bot))
