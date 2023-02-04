@@ -15,6 +15,7 @@ class game1(commands.Cog):
         embed = nextcord.Embed(description=f"Message deleted in {message.channel.mention} by {message.author.mention}", color=0x5947FF)
         embed.set_author(name=message.author, icon_url=message.author.display_avatar)
         embed.add_field(name="Content", value=message.content, inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -28,6 +29,7 @@ class game1(commands.Cog):
         embed.set_author(name=before.author, icon_url=before.author.display_avatar)
         embed.add_field(name="Before", value=before.content, inline=True)
         embed.add_field(name="After", value=after.content, inline=True)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.id} (Message ID)\n{before.channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
@@ -96,6 +98,7 @@ class game1(commands.Cog):
             embed.add_field(name="Server NSFW Level changed", value=f"Before: **{before.nsfw_level}**\nAfter: **{after.nsfw_level}**", inline=False)
             Status = True
             
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.id} (Server ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         if Status == True: # If there is a change
@@ -109,6 +112,7 @@ class game1(commands.Cog):
         embed = nextcord.Embed(description=f"Emoji added!  →  [Go to Message]({message_jump_url})", color=0x5947FF)
         embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
         embed.add_field(name="Reaction", value=payload.emoji, inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -126,6 +130,7 @@ class game1(commands.Cog):
         else:
             embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
         embed.add_field(name="Reaction", value=f"{payload.emoji} / {payload.member}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(payload.guild_id))).send(embed=embed)
@@ -140,6 +145,7 @@ class game1(commands.Cog):
             embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
         embed.add_field(name="Category", value=f"{channel.category}", inline=False)
         embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
@@ -155,6 +161,7 @@ class game1(commands.Cog):
             embed.set_author(name=entry.user, icon_url=entry.user.display_avatar)
         embed.add_field(name="Category", value=f"{channel.category}", inline=False)
         embed.add_field(name="Channel name", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{channel.guild.id} (Server ID)\n{channel.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         await self.bot.get_channel(utils.get_channel_id(str(channel.guild.id))).send(embed=embed)
@@ -181,14 +188,31 @@ class game1(commands.Cog):
         if before.changed_roles != after.changed_roles:
             embed.add_field(name="Changed roles", value=f"Before: **{before.changed_roles}**\nAfter: **{after.changed_roles}**", inline=False)
             Status = True
-        
+            
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{before.guild.id} (Server ID)\n{before.id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
         
         if  Status == True:
             await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
             
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        embed = nextcord.Embed(description=f"**Member joined**", color=0x5DD471)
+        embed.set_author(name=member, icon_url=member.display_avatar)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{member.guild.id} (Server ID)\n{member.id} (Member ID)```", inline=False)
+        await self.bot.get_channel(utils.get_channel_id(str(member.guild.id))).send(embed=embed)
     
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        embed = nextcord.Embed(description=f"**Member left**", color=0xD1111B)
+        embed.set_author(name=member, icon_url=member.display_avatar)
+        embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
+        embed.add_field(name="ID", value=f"```yaml\n{member.guild.id} (Server ID)\n{member.id} (Member ID)```", inline=False)
+        await self.bot.get_channel(utils.get_channel_id(str(member.guild.id))).send(embed=embed)
+        
+        
         
         
     
