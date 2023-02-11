@@ -1,7 +1,7 @@
 import nextcord, utils.utils as utils
 from nextcord.ext import commands
 
-from main import GUILD_ID
+#from main import GUILD_ID
 
 class game1(commands.Cog):
     def __init__(self, bot):
@@ -225,6 +225,7 @@ class game1(commands.Cog):
         Status = False
         
         # 의도치않은 오류가 계속 발생함. 왜인지 모르겠음 / 유저의 상태를 보고하는것인데 자꾸 임베드가 두개생성되거나 필드가 한개 없이 생성되는 오류가 발생함
+        # TODO: 오류 수정
         # print(f"BEFORE :::::: {before.is_on_mobile()}\n AFTER :::::: {after.is_on_mobile()}")
         # if before.status != after.status:
         #     if after.is_on_mobile():
@@ -307,7 +308,7 @@ class game1(commands.Cog):
             await self.bot.get_channel(utils.get_channel_id(str(before.guild.id))).send(embed=embed)
         
     @commands.Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
+    async def on_voice_state_update(self, member, before, after): # When a user's voice state is updated
         embed = nextcord.Embed(description=f"Voice State Updated!", color=0x188881)
         embed.set_author(name=member, icon_url=member.display_avatar)
         Status = False
@@ -337,7 +338,7 @@ class game1(commands.Cog):
             await self.bot.get_channel(utils.get_channel_id(str(member.guild.id))).send(embed=embed)
         
     @commands.Cog.listener()
-    async def on_member_ban(self, guild, user):
+    async def on_member_ban(self, guild, user): # When a member got banned
         embed = nextcord.Embed(description=f"**Member Banned**", color=0xD1111B)
         embed.set_author(name=user, icon_url=user.display_avatar)
         async for entry in guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
@@ -351,7 +352,7 @@ class game1(commands.Cog):
         await self.bot.get_channel(utils.get_channel_id(str(guild.id))).send(embed=embed)
     
     @commands.Cog.listener()
-    async def on_member_unban(self, guild, user):
+    async def on_member_unban(self, guild, user): # When a member got unbanned
         embed = nextcord.Embed(description=f"**Member Unbanned**", color=0x00FF00)
         embed.set_author(name=user, icon_url=user.display_avatar)
         async for entry in guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
@@ -364,7 +365,7 @@ class game1(commands.Cog):
         await self.bot.get_channel(utils.get_channel_id(str(guild.id))).send(embed=embed)
         
     @commands.Cog.listener()
-    async def on_invite_create(self, invite):
+    async def on_invite_create(self, invite): # When invite created
         embed = nextcord.Embed(title=f"Invite Created", description=f"invite created in {invite.channel.mention}", color=0x00FF00)
         embed.set_author(name=invite.inviter, icon_url=invite.inviter.display_avatar)
         embed.add_field(name="Invite Code", value=f"{invite.code}", inline=False)
@@ -379,7 +380,7 @@ class game1(commands.Cog):
         await self.bot.get_channel(utils.get_channel_id(str(invite.guild.id))).send(embed=embed)
         
     @commands.Cog.listener()
-    async def on_invite_delete(self, invite):
+    async def on_invite_delete(self, invite): # When invite is deleted
         embed = nextcord.Embed(title=f"Invite Deleted", description=f"invite deleted in {invite.channel.mention}", color=0xD1111B)
         async for entry in invite.guild.audit_logs(limit=1, action=nextcord.AuditLogAction.guild_update):
             if entry.user.bot:
