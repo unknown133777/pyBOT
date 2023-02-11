@@ -1,7 +1,7 @@
 import nextcord, requests
 from nextcord.ext import commands
 
-from main import GUILD_ID
+#from main import GUILD_ID
 
 def log_embed(interaction: nextcord.Interaction, channel: nextcord.TextChannel, description: str):
     embed = nextcord.Embed(title=f"Save Log at {channel.name}", description=description, color=0x5947FF)
@@ -14,12 +14,12 @@ class LogChannel(commands.Cog):
         self.bot = bot
     
     #Set Log Channel to show logs
-    @nextcord.slash_command(guild_ids=[GUILD_ID], description="You can choose channel that shows logs", name="log_channel")
+    @nextcord.slash_command(description="You can choose channel that shows logs", name="log_channel")
     async def setLogChannelA(self, interaction: nextcord.Interaction, channel: nextcord.TextChannel = nextcord.SlashOption(required=True)):
         
         #REST API TO POST
         http_post = requests.post(
-            url="http://127.0.0.1:8000/logchannel/set/", 
+            url="http://gcp.donggeon.xyz:8000/logchannel/set/", 
             json={"channel_id": f"{channel.id}", "guild_id": f"{channel.guild.id}"}, 
             headers={"Content-Type": "application/json"}
         )
