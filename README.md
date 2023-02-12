@@ -3,4 +3,4 @@
 Python Discord BOT
 
 LIBRARY
-``nextcord``, ``requests``
+``nextcord``, ``requests`` 
