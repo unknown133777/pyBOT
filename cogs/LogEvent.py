@@ -14,7 +14,10 @@ class game1(commands.Cog):
             return
         embed = nextcord.Embed(description=f"Message deleted in {message.channel.mention} by {message.author.mention}", color=0x5947FF)
         embed.set_author(name=message.author, icon_url=message.author.display_avatar)
-        embed.add_field(name="Content", value=message.content, inline=False)
+        if message.content == "":
+            embed.add_field(name="Content", value="None", inline=False)
+        else:
+            embed.add_field(name="Content", value=message.content, inline=False)
         embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
@@ -129,7 +132,7 @@ class game1(commands.Cog):
             embed.set_author(name="Unknown", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
         else:
             embed.set_author(name=payload.member, icon_url=payload.member.display_avatar)
-        embed.add_field(name="Reaction", value=f"{payload.emoji} / {payload.member}", inline=False)
+        embed.add_field(name="Reaction", value=f"{payload.emoji}", inline=False)
         embed.add_field(name="Time", value=f"{nextcord.utils.format_dt(nextcord.utils.utcnow())}", inline=False)
         embed.add_field(name="ID", value=f"```yaml\n{payload.message_id} (Message ID)\n{payload.channel_id} (Channel ID)```", inline=False)
         embed.set_footer(text=f"github.com/Lee-d-g2222/pyBOT ・ Developed by 동건#2222")
