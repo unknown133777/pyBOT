@@ -3,7 +3,7 @@ from nextcord.ext import commands
 
 #from main import GUILD_ID
 
-class game1(commands.Cog):
+class LogEvenet(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -397,4 +397,4 @@ class game1(commands.Cog):
         
         
 def setup(bot):
-    bot.add_cog(game1(bot))
+    bot.add_cog(LogEvenet(bot))
