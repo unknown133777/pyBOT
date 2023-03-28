@@ -10,7 +10,7 @@ def read_json():
 
 #get Channel ID from REST API
 def get_channel_id(guild_id: str):
-    http_get = requests.get(url=f"http://gcp.donggeon.xyz:8000/logchannel/get/{guild_id}")
+    http_get = requests.get(url=f"http://gcp.4n63l.com:8000/logchannel/get/{guild_id}")
     if http_get.status_code == 200:
         return int(http_get.json()['channel_id'])
     elif http_get.status_code == 404:

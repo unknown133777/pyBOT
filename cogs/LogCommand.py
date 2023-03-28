@@ -19,7 +19,7 @@ class LogChannel(commands.Cog):
         
         #REST API TO POST
         http_post = requests.post(
-            url="http://gcp.donggeon.xyz:8000/logchannel/set/", 
+            url="http://gcp.4n63l.com:8000/logchannel/set/", 
             json={"channel_id": f"{channel.id}", "guild_id": f"{channel.guild.id}"}, 
             headers={"Content-Type": "application/json"}
         )
